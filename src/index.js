@@ -9,10 +9,11 @@ server.route({
     method: 'GET',
     path: '/hello',
     handler: function (reqest, h) {
-        return 'hello worlds test 2';
+        return 'hello worlds test 22';
     }
 });
 server.start();
 () => {
     console.log("YEST")
+    console.log("TEST 2");
 }
