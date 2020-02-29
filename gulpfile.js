@@ -16,7 +16,7 @@ gulp.task('copy', (done)=> {
     gulp.src('src/**/*.html')
         .pipe(gulp.dest('dist'));
     done();
-});
+}); 
 
 gulp.task('watch', function(done) {
     gulp.watch('src/**/*.js',gulp.series('compile'));
