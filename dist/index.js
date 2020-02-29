@@ -12,14 +12,26 @@ var server = new Hapi.Server({
   host: 'localhost',
   port: 3000
 });
+
+function getName(request) {
+  // set defaults
+  var name = {
+    fname: "New",
+    lname: "User"
+  }; // split path params
+
+  var nameParts = request.params.name ? request.params.name.split('/') : [];
+  name.fname = nameParts[0] || request.query.fname || name.fname;
+  name.lname = nameParts[1] || request.query.lname || name.lname;
+  console.log(name);
+  return name;
+}
+
 server.route({
   method: 'GET',
-  path: '/hello',
+  path: '/hello/{name*}',
   handler: function handler(request, h) {
-    return _nunjucks["default"].render('index.html', {
-      fname: 'Rick',
-      lname: 'Sanchez'
-    });
+    return _nunjucks["default"].render('index.html', getName(request));
   }
 });
 server.start();
