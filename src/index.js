@@ -12,7 +12,7 @@ server.route({
     path: '/hello',
     handler: function (request, h) {
         return nunjucks.render('index.html', {
-            fname: 'Rick',
+            fname: 'Rick', 
             lname: 'Sanchez'
         });
     }
