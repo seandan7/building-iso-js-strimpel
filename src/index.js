@@ -1,11 +1,14 @@
 var Hapi = require('@hapi/hapi');
-import nunjucks from 'nunjucks';
-nunjucks.configure('./dist');
+import Application from './lib';
+import Controller from './lib/controller';
+
+
 
 const server = new Hapi.Server({
     host: 'localhost',
     port: 3000
 });
+
 function getName(request) {
     // set defaults
     let name = {
@@ -19,11 +22,13 @@ function getName(request) {
     console.log(name);
     return name;
 }
-server.route({
-    method: 'GET',
-    path: '/hello/{name*}',
-    handler: function (request, h) {
-         return nunjucks.render('index.html', getName(request));
-    }
-});
-server.start();
+
+
+
+const application = new Application({
+    // respond to localhost:30000
+    '/': Controller
+    }, {
+    server: server
+})
+application.start();

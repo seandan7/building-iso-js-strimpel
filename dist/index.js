@@ -1,12 +1,12 @@
 "use strict";
 
-var _nunjucks = _interopRequireDefault(require("nunjucks"));
+var _lib = _interopRequireDefault(require("./lib"));
+
+var _controller = _interopRequireDefault(require("./lib/controller"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Hapi = require('@hapi/hapi');
-
-_nunjucks["default"].configure('./dist');
 
 var server = new Hapi.Server({
   host: 'localhost',
@@ -27,11 +27,10 @@ function getName(request) {
   return name;
 }
 
-server.route({
-  method: 'GET',
-  path: '/hello/{name*}',
-  handler: function handler(request, h) {
-    return _nunjucks["default"].render('index.html', getName(request));
-  }
+var application = new _lib["default"]({
+  // respond to localhost:30000
+  '/': _controller["default"]
+}, {
+  server: server
 });
-server.start();
+application.start();
