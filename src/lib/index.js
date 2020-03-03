@@ -16,24 +16,19 @@ export default class Application {
         this.server.route({
             path: path,
             method: 'GET',
-            handler: (request, h) => {
-                const controller = new Controller({
-                    query: request.query,
-                    params: request.params
-                });
-                let returnStatement = null;
-                controller.index(this, request, h.response, (err) => {
-                    if (err) {
-                        returnStatement =  err;
-                    }
-                    controller.toString((err, html) => {
-                        if (err) {
-                            returnStatement =  err;
-                        }
-                        returnStatement= html;
+            handler: function (request, h) {
+                return new Promise((resolve, reject) => {
+                    const controller = new Controller({
+                        query: request.query,
+                        params: request.params
+                    });
+                    controller.index(this, request, h, (err) => {
+                        if (err) reject(err);
+                        controller.toString( (err, html) => {
+                             resolve(html);
+                        });
                     });
                 });
-                return returnStatement;
             }
         });
     }

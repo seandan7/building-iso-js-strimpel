@@ -33,31 +33,24 @@ var Application = /*#__PURE__*/function () {
   }, {
     key: "addRoute",
     value: function addRoute(path, Controller) {
-      var _this = this;
-
       this.server.route({
         path: path,
         method: 'GET',
         handler: function handler(request, h) {
-          var controller = new Controller({
-            query: request.query,
-            params: request.params
-          });
-          var returnStatement = null;
-          controller.index(_this, request, h.response, function (err) {
-            if (err) {
-              returnStatement = err;
-            }
+          var _this = this;
 
-            controller.toString(function (err, html) {
-              if (err) {
-                returnStatement = err;
-              }
-
-              returnStatement = html;
+          return new Promise(function (resolve, reject) {
+            var controller = new Controller({
+              query: request.query,
+              params: request.params
+            });
+            controller.index(_this, request, h, function (err) {
+              if (err) reject(err);
+              controller.toString(function (err, html) {
+                resolve(html);
+              });
             });
           });
-          return returnStatement;
         }
       });
     }

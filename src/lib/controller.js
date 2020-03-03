@@ -5,7 +5,7 @@ export default class Controller {
     }
 
 
-    index(application, request, reply, callback) {
+    index(application, request, h, callback) {
         callback(null);
     }
 

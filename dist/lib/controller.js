@@ -20,7 +20,7 @@ var Controller = /*#__PURE__*/function () {
 
   _createClass(Controller, [{
     key: "index",
-    value: function index(application, request, reply, callback) {
+    value: function index(application, request, h, callback) {
       callback(null);
     }
   }, {
