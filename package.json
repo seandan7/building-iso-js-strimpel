@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/seandan7/building-iso-js-strimpel#readme",
   "browser": {
-    "./src/index.js": "./src/index.client.js"
+    "./src/index.js": "./src/index.client.js",
+    "./src/lib/index.js":"./src/lib/index.client.js"
   },
   "dependencies": {
     "@babel/core": "^7.8.6",
