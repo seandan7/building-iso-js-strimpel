@@ -56,7 +56,7 @@ var HelloController = /*#__PURE__*/function (_Controller) {
   _createClass(HelloController, [{
     key: "toString",
     value: function toString(callback) {
-      _nunjucks["default"].renderString('<p>Hello </p>', getName(this.context), function (err, res) {
+      _nunjucks["default"].render('hello.html', getName(this.context), function (err, res) {
         if (err) {
           return callback(err, null);
         }

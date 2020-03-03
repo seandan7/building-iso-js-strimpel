@@ -28,7 +28,7 @@ server.route({
 })
 const application = new Application({
     // respond to localhost:30000
-    '/': Controller,
+    '/': HelloController,
     '/hello/{name*}': HelloController
 }, {
     document: function (application, controller, request, body, callback) {

@@ -32,7 +32,7 @@ server.route({
 });
 var application = new _lib["default"]({
   // respond to localhost:30000
-  '/': _controller["default"],
+  '/': _HelloController["default"],
   '/hello/{name*}': _HelloController["default"]
 }, {
   document: function document(application, controller, request, body, callback) {
