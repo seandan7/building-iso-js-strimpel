@@ -17,11 +17,11 @@ function getName(request) {
 }
 export default class HelloController extends Controller {
     toString(callback) {
-        nunjucks.render('index.html', getName(this.context), (err, res) => {
+        nunjucks.renderString('<p>Hello </p>', getName(this.context), (err, res) => {
             if (err) {
                 return callback(err, null);
             }
-            return callback(null, res);
+             callback(null, res);
         });
     }
 }  

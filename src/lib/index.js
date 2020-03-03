@@ -3,6 +3,7 @@ import Controller from "./controller";
 export default class Application {
     constructor(routes, options) {
         this.server = options.server;
+        this.document = options.document;
         this.registerRoutes(routes);
     }
 
@@ -13,19 +14,24 @@ export default class Application {
     }
 
     addRoute(path, Controller) {
+        var self = this;
         this.server.route({
             path: path,
             method: 'GET',
             handler: function (request, h) {
-                return new Promise((resolve, reject) => {
+                return new Promise(function (resolve, reject){
                     const controller = new Controller({
                         query: request.query,
                         params: request.params
                     });
-                    controller.index(this, request, h, (err) => {
+                    controller.index(this, request, h, function (err) {
                         if (err) reject(err);
-                        controller.toString( (err, html) => {
-                             resolve(html);
+                        controller.toString(function (err, html) {
+                            self.document(this, controller, request, html,
+                                function (err, html) {
+                                    if (err) reject(err);
+                                    resolve(html);
+                                })
                         });
                     });
                 });

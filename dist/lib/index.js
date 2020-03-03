@@ -20,6 +20,7 @@ var Application = /*#__PURE__*/function () {
     _classCallCheck(this, Application);
 
     this.server = options.server;
+    this.document = options.document;
     this.registerRoutes(routes);
   }
 
@@ -33,21 +34,23 @@ var Application = /*#__PURE__*/function () {
   }, {
     key: "addRoute",
     value: function addRoute(path, Controller) {
+      var self = this;
       this.server.route({
         path: path,
         method: 'GET',
         handler: function handler(request, h) {
-          var _this = this;
-
           return new Promise(function (resolve, reject) {
             var controller = new Controller({
               query: request.query,
               params: request.params
             });
-            controller.index(_this, request, h, function (err) {
+            controller.index(this, request, h, function (err) {
               if (err) reject(err);
               controller.toString(function (err, html) {
-                resolve(html);
+                self.document(this, controller, request, html, function (err, html) {
+                  if (err) reject(err);
+                  resolve(html);
+                });
               });
             });
           });

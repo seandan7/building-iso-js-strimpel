@@ -56,12 +56,12 @@ var HelloController = /*#__PURE__*/function (_Controller) {
   _createClass(HelloController, [{
     key: "toString",
     value: function toString(callback) {
-      _nunjucks["default"].render('index.html', getName(this.context), function (err, res) {
+      _nunjucks["default"].renderString('<p>Hello </p>', getName(this.context), function (err, res) {
         if (err) {
           return callback(err, null);
         }
 
-        return callback(null, res);
+        callback(null, res);
       });
     }
   }]);
