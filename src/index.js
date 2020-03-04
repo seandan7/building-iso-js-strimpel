@@ -2,7 +2,6 @@ import Hapi from '@hapi/hapi';
 import Application from './lib';
 import HelloController from './HelloController';
 import nunjucks from 'nunjucks';
-import Controller from './lib/controller';
 import Inert from '@hapi/inert';
 
 nunjucks.configure('./dist');

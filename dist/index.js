@@ -8,8 +8,6 @@ var _HelloController = _interopRequireDefault(require("./HelloController"));
 
 var _nunjucks = _interopRequireDefault(require("nunjucks"));
 
-var _controller = _interopRequireDefault(require("./lib/controller"));
-
 var _inert = _interopRequireDefault(require("@hapi/inert"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

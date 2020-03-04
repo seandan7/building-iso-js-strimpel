@@ -20,14 +20,13 @@ var Application = /*#__PURE__*/function () {
     key: "navigate",
     value: function navigate(url) {
       var push = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
       // if browser doesnt support history API, go to url
+      console.log(url);
+
       if (!history.pushState) {
         window.location = url;
         return;
       }
-
-      console.log(url);
 
       if (push) {
         history.pushState({}, null, url);
@@ -48,16 +47,15 @@ var Application = /*#__PURE__*/function () {
         _this.navigate(url, false);
       });
       this.clickListener = document.addEventListener('click', function (e) {
-        console.log("Clicked");
         var target = e.target;
         var identifier = target.dataset.navigate;
         var href = target.getAttribute('href');
 
         if (identifier !== undefined) {
-          // if user clicked on an href, prevent default
           if (href) {
             e.preventDefault();
-          } // navigate to href if there
+          } // if user clicked on an href, prevent default
+          // navigate to href if there
 
 
           _this.navigate(identifier || href);
