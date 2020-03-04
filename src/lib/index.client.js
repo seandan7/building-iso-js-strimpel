@@ -18,6 +18,7 @@ export default class Application {
             this.navigate(url, false);
         });
         this.clickListener = document.addEventListener('click',(e) => {
+            console.log("Clicked");
             let {target} = e;
             let identifier = target.dataset.navigate;
             let href = target.getAttribute('href');

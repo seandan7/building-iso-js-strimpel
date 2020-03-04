@@ -22,7 +22,6 @@ export default class HelloController extends Controller {
                 return callback(err, null);
             }
             callback(null, res);
-            
         });
     }
 }  

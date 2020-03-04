@@ -48,6 +48,7 @@ var Application = /*#__PURE__*/function () {
         _this.navigate(url, false);
       });
       this.clickListener = document.addEventListener('click', function (e) {
+        console.log("Clicked");
         var target = e.target;
         var identifier = target.dataset.navigate;
         var href = target.getAttribute('href');

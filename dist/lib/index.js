@@ -39,17 +39,19 @@ var Application = /*#__PURE__*/function () {
         path: path,
         method: 'GET',
         handler: function handler(request, h) {
+          var controller = new Controller({
+            query: request.query,
+            params: request.params
+          });
           return new Promise(function (resolve, reject) {
-            var controller = new Controller({
-              query: request.query,
-              params: request.params
-            });
             controller.index(this, request, h, function (err) {
               if (err) reject(err);
               controller.toString(function (err, html) {
                 self.document(this, controller, request, html, function (err, html) {
-                  if (err) reject(err);
-                  resolve(html);
+                  if (err) reject(err); // TODO: Figure out why this I need to do this instead of just having nunjucks render as it should
+
+                  html = html.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+                  resolve(html.replace('&lt;', '<').replace('&gt;', '>'));
                 });
               });
             });

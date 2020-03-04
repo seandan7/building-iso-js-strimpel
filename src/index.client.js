@@ -1,4 +1,4 @@
-import Application from './lib';
+import Application from './lib/index.client.js';
 import HelloController from './HelloController';
 
  const application = new Application({
