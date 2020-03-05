@@ -1,7 +1,9 @@
 import Application from './lib/index.client.js';
 import HelloController from './HelloController';
-console.log("test client index");
+import nunjucks from 'nunjucks';
 
+
+nunjucks.configure('/templates');
 const application = new Application({
     '/': HelloController,
     '/hello/{name*}': HelloController

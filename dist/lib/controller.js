@@ -28,6 +28,18 @@ var Controller = /*#__PURE__*/function () {
     value: function toString(callback) {
       callback(null, 'success');
     }
+  }, {
+    key: "render",
+    value: function render(target, callback) {
+      this.toString(function (err, body) {
+        if (err) {
+          return callback(err, null);
+        }
+
+        document.querySelector(target).innerHTML = body;
+        callback(null, body);
+      });
+    }
   }]);
 
   return Controller;
