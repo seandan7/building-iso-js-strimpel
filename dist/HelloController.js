@@ -31,10 +31,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 _nunjucks["default"].configure('./dist');
 
-function onClick(e) {
-  console.log(e.currentTarget);
-}
-
 function getName(request) {
   // set defaults
   var name = {
@@ -46,6 +42,10 @@ function getName(request) {
   name.fname = nameParts[0] || request.query.fname || name.fname;
   name.lname = nameParts[1] || request.query.lname || name.lname;
   return name;
+}
+
+function onClick(e) {
+  console.log(e.currentTarget);
 }
 
 var HelloController = /*#__PURE__*/function (_Controller) {
@@ -81,6 +81,16 @@ var HelloController = /*#__PURE__*/function (_Controller) {
 
         callback(null, res);
       });
+    }
+  }, {
+    key: "attach",
+    value: function attach(el) {
+      this.clickHandler = el.addEventListener('click', function (e) {}, false);
+    }
+  }, {
+    key: "detatch",
+    value: function detatch(el) {
+      el.removeEventListener('click', onClick, false);
     }
   }]);
 

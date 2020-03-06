@@ -40,14 +40,11 @@ var Controller = /*#__PURE__*/function () {
     }
   }, {
     key: "attach",
-    value: function attach(el) {
-      console.log(this.context.data);
-      this.clickHandler = el.addEventListener('click', onClick, false);
+    value: function attach(el) {// to be implemented by the application
     }
   }, {
-    key: "detatch",
-    value: function detatch(el) {
-      el.removeEventListener('click', onClick, false);
+    key: "detach",
+    value: function detach(el) {// to be implemented by the application
     }
   }, {
     key: "render",

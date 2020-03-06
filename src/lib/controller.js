@@ -22,12 +22,12 @@ export default class Controller {
     }
 
     attach(el) {
-        console.log(this.context.data)
-        this.clickHandler = el.addEventListener('click',onClick, false);
-    }
-    detatch(el) {
-        el.removeEventListener('click',onClick, false);
-    }
+        // to be implemented by the application
+      }
+    
+      detach(el) {
+        // to be implemented by the application
+      }
     render(target, callback) {
         this.toString(function(err, body) {
             if (err) {
