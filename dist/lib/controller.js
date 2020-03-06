@@ -34,6 +34,20 @@ var Controller = /*#__PURE__*/function () {
       return JSON.stringify(this.context.data || {});
     }
   }, {
+    key: "deserialize",
+    value: function deserialize() {
+      this.context.data = JSON.parse(window.__STATE__);
+    }
+  }, {
+    key: "attach",
+    value: function attach(el) {
+      console.log(this.context.data);
+    }
+  }, {
+    key: "detatch",
+    value: function detatch(el) {// to be implemented
+    }
+  }, {
     key: "render",
     value: function render(target, callback) {
       this.toString(function (err, body) {

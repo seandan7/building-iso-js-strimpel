@@ -24,7 +24,9 @@ export default class HelloController extends Controller {
     }
 
     toString(callback) {
-        nunjucks.render('hello.html', getName(this.context), (err, res) => {
+        let context = getName(this.context);
+        context.data = this.context.data;
+        nunjucks.render('hello.html', context, (err, res) => {
             if (err) {
                 return callback(err, null);
             }

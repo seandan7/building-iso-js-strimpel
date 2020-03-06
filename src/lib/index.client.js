@@ -23,52 +23,56 @@ export default class Application {
             });
         }
     }
-
+    getURL() {
+        let { pathname, search } = window.location;
+        return `${pathname}${search}`;
+    }
+    rehydrate() {
+        let targetEl = document.querySelector(this.options.target);
+        this.controller = this.createController(this.getURL());
+        this.controller.deserialize();
+        this.controller.attach(targetEl);
+    }
     navigate(url, push = true) {
         // if browser doesnt support history API, go to url
         if (!history.pushState) {
             window.location = url;
             return;
         }
+        let previousController = this.controller;
+        this.controller = this.createController(url);
+        // if a controller was created then proceed with navigating
+        if (this.controller) {
+            // request and reply stubs
+            const request = () => { };
+            const reply = replyFactory(this);
 
-        const request = () => {};
-        const reply = replyFactory(this);
-        // split path and search string
-        let urlParts = url.split('?');
-        
-        let [path, search] = urlParts;
-
-        // see if url path matches route in router
-        let match = this.router.route('get', path);
-        let {route, params} = match;
-
-        // look up Controller in routes table
-        let Controller = this.routes[route];
-
-        // if match and Controller in routes table, make instance
-        if (route && Controller) {
-            const controller = new Controller({
-                query: query.parse(search),
-                params: params,
-                cookie: cookie
-            });
-            // request and reply stubs -- facadesnext chapter
-            const request = ()=> {};
-            const reply = ()=> {};
+            if (push) {
+                history.pushState({}, null, url);
+            }
 
             // execute controller action
-            controller.index(this, request, reply, (err) => {
+            this.controller.index(this, request, reply, (err) => {
                 if (err) {
-                    return h.response;
+                    return reply(err);
                 }
-            })
-               
-        }
-        console.log(url);
 
-        if (push) {
-            history.pushState({}, null, url);
+                let targetEl = document.querySelector(this.options.target);
+                if (previousController) {
+                    previousController.detatch(targetEl);
+                }
+                // render controller response
+                this.controller.render(this.options.target, (err, response) => {
+                    if (err) {
+                        return reply(err);
+                    }
+
+                    reply(response);
+                    this.controller.attach(targetEl);
+                });
+            });
         }
+
     }
     start() {
         // event listener for redirects
@@ -91,6 +95,27 @@ export default class Application {
                 this.navigate(identifier || href);
             }
         });
+        this.rehydrate();
+    }
+    createController(url) {
+        // split the path and search string
+        let urlParts = url.split('?');
+        // destructure url parts array
+        let [path, search] = urlParts;
+        // see if url path matches route in router
+        let match = this.router.route('get', path);
+        // destructure the route path and path path params
+        let { route, params } = match;
+        // look up controller class in routes table
+        let Controller = this.routes[route];
+
+        return Controller ?
+            new Controller({
+                // parse search string into object
+                query: query.parse(search),
+                params: params,
+                cookie: cookie
+            }) : undefined;
     }
 }
 console.log("Test client lib");

@@ -16,6 +16,17 @@ export default class Controller {
     serialize() {
         return JSON.stringify(this.context.data || {});
     }
+
+    deserialize() {
+        this.context.data = JSON.parse(window.__STATE__);
+    }
+
+    attach(el) {
+        console.log(this.context.data)
+    }
+    detatch(el) {
+        // to be implemented
+    }
     render(target, callback) {
         this.toString(function(err, body) {
             if (err) {

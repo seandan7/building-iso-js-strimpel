@@ -67,7 +67,10 @@ var HelloController = /*#__PURE__*/function (_Controller) {
   }, {
     key: "toString",
     value: function toString(callback) {
-      _nunjucks["default"].render('hello.html', getName(this.context), function (err, res) {
+      var context = getName(this.context);
+      context.data = this.context.data;
+
+      _nunjucks["default"].render('hello.html', context, function (err, res) {
         if (err) {
           return callback(err, null);
         }

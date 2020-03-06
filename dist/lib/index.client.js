@@ -11,7 +11,7 @@ var _queryString = _interopRequireDefault(require("query-string"));
 
 var _cookie = _interopRequireDefault(require("./cookie.client"));
 
-var _reply2 = _interopRequireDefault(require("./reply.client"));
+var _reply = _interopRequireDefault(require("./reply.client"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53,8 +53,26 @@ var Application = /*#__PURE__*/function () {
       }
     }
   }, {
+    key: "getURL",
+    value: function getURL() {
+      var _window$location = window.location,
+          pathname = _window$location.pathname,
+          search = _window$location.search;
+      return "".concat(pathname).concat(search);
+    }
+  }, {
+    key: "rehydrate",
+    value: function rehydrate() {
+      var targetEl = document.querySelector(this.options.target);
+      this.controller = this.createController(this.getURL());
+      this.controller.deserialize();
+      this.controller.attach(targetEl);
+    }
+  }, {
     key: "navigate",
     value: function navigate(url) {
+      var _this = this;
+
       var push = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
       // if browser doesnt support history API, go to url
@@ -63,61 +81,57 @@ var Application = /*#__PURE__*/function () {
         return;
       }
 
-      var request = function request() {};
+      var previousController = this.controller;
+      this.controller = this.createController(url); // if a controller was created then proceed with navigating
 
-      var reply = (0, _reply2["default"])(this); // split path and search string
+      if (this.controller) {
+        // request and reply stubs
+        var request = function request() {};
 
-      var urlParts = url.split('?');
+        var reply = (0, _reply["default"])(this);
 
-      var _urlParts = _slicedToArray(urlParts, 2),
-          path = _urlParts[0],
-          search = _urlParts[1]; // see if url path matches route in router
-
-
-      var match = this.router.route('get', path);
-      var route = match.route,
-          params = match.params; // look up Controller in routes table
-
-      var Controller = this.routes[route]; // if match and Controller in routes table, make instance
-
-      if (route && Controller) {
-        var controller = new Controller({
-          query: _queryString["default"].parse(search),
-          params: params,
-          cookie: _cookie["default"]
-        }); // request and reply stubs -- facadesnext chapter
-
-        var _request = function _request() {};
-
-        var _reply = function _reply() {}; // execute controller action
+        if (push) {
+          history.pushState({}, null, url);
+        } // execute controller action
 
 
-        controller.index(this, _request, _reply, function (err) {
+        this.controller.index(this, request, reply, function (err) {
           if (err) {
-            return h.response;
+            return reply(err);
           }
+
+          var targetEl = document.querySelector(_this.options.target);
+
+          if (previousController) {
+            previousController.detatch(targetEl);
+          } // render controller response
+
+
+          _this.controller.render(_this.options.target, function (err, response) {
+            if (err) {
+              return reply(err);
+            }
+
+            reply(response);
+
+            _this.controller.attach(targetEl);
+          });
         });
-      }
-
-      console.log(url);
-
-      if (push) {
-        history.pushState({}, null, url);
       }
     }
   }, {
     key: "start",
     value: function start() {
-      var _this = this;
+      var _this2 = this;
 
       // event listener for redirects
       this.popStateListener = window.addEventListener('popstate', function (e) {
-        var _window$location = window.location,
-            pathname = _window$location.pathname,
-            search = _window$location.search;
+        var _window$location2 = window.location,
+            pathname = _window$location2.pathname,
+            search = _window$location2.search;
         var url = "".concat(pathname).concat(search);
 
-        _this.navigate(url, false);
+        _this2.navigate(url, false);
       });
       this.clickListener = document.addEventListener('click', function (e) {
         var target = e.target;
@@ -131,9 +145,34 @@ var Application = /*#__PURE__*/function () {
           // navigate to href if there
 
 
-          _this.navigate(identifier || href);
+          _this2.navigate(identifier || href);
         }
       });
+      this.rehydrate();
+    }
+  }, {
+    key: "createController",
+    value: function createController(url) {
+      // split the path and search string
+      var urlParts = url.split('?'); // destructure url parts array
+
+      var _urlParts = _slicedToArray(urlParts, 2),
+          path = _urlParts[0],
+          search = _urlParts[1]; // see if url path matches route in router
+
+
+      var match = this.router.route('get', path); // destructure the route path and path path params
+
+      var route = match.route,
+          params = match.params; // look up controller class in routes table
+
+      var Controller = this.routes[route];
+      return Controller ? new Controller({
+        // parse search string into object
+        query: _queryString["default"].parse(search),
+        params: params,
+        cookie: _cookie["default"]
+      }) : undefined;
     }
   }]);
 
