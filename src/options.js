@@ -35,10 +35,11 @@ server.route({
 export default {
     nunjucks: './dist',
     server: server,
-    document: function (application, controller, request, body, callback) {
+    document: function (application, controller, request,reply, body, callback) {
         nunjucks.render('./index.html', {
             body: body,
-            application: APP_FILE_PATH
+            application: APP_FILE_PATH,
+            state: controller.serialize()
         },
             (err, html) => {
                 if (err) {

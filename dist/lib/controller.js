@@ -29,6 +29,11 @@ var Controller = /*#__PURE__*/function () {
       callback(null, 'success');
     }
   }, {
+    key: "serialize",
+    value: function serialize() {
+      return JSON.stringify(this.context.data || {});
+    }
+  }, {
     key: "render",
     value: function render(target, callback) {
       this.toString(function (err, body) {

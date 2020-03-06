@@ -1,7 +1,7 @@
 import Call from 'call';
 import query from 'query-string';
 import cookie from './cookie.client';
-
+import replyFactory from './reply.client';
 
 export default class Application {
 
@@ -30,6 +30,9 @@ export default class Application {
             window.location = url;
             return;
         }
+
+        const request = () => {};
+        const reply = replyFactory(this);
         // split path and search string
         let urlParts = url.split('?');
         
@@ -54,7 +57,7 @@ export default class Application {
             const reply = ()=> {};
 
             // execute controller action
-            controller.index(this, request, h, (err) => {
+            controller.index(this, request, reply, (err) => {
                 if (err) {
                     return h.response;
                 }

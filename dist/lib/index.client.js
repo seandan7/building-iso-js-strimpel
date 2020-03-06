@@ -11,6 +11,8 @@ var _queryString = _interopRequireDefault(require("query-string"));
 
 var _cookie = _interopRequireDefault(require("./cookie.client"));
 
+var _reply2 = _interopRequireDefault(require("./reply.client"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -59,8 +61,11 @@ var Application = /*#__PURE__*/function () {
       if (!history.pushState) {
         window.location = url;
         return;
-      } // split path and search string
+      }
 
+      var request = function request() {};
+
+      var reply = (0, _reply2["default"])(this); // split path and search string
 
       var urlParts = url.split('?');
 
@@ -82,12 +87,12 @@ var Application = /*#__PURE__*/function () {
           cookie: _cookie["default"]
         }); // request and reply stubs -- facadesnext chapter
 
-        var request = function request() {};
+        var _request = function _request() {};
 
-        var reply = function reply() {}; // execute controller action
+        var _reply = function _reply() {}; // execute controller action
 
 
-        controller.index(this, request, h, function (err) {
+        controller.index(this, _request, _reply, function (err) {
           if (err) {
             return h.response;
           }

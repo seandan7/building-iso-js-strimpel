@@ -20,15 +20,16 @@ function _default(request, reply) {
     get: function get(name) {
       return request.state[name] && decodeURIComponent(request.state[name]) || undefined;
     },
-    set: function set(name, value) {
+    set: function set(name, value) {// TODO: FIX
+      // reply.state(cleanName(name), cleanValue(value), {
+      //     // use hapi defaults if values are falsy
+      //     isSecure: options.secure || false,
+      //     path: options.path || null,
+      //     ttl: options.expires || null,
+      //     domain: options.domain || null
+      //   });
+
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      reply.state(cleanName(name), cleanValue(value), {
-        // use hapi defaults if values are falsy
-        isSecure: options.secure || false,
-        path: options.path || null,
-        ttl: options.expires || null,
-        domain: options.domain || null
-      });
     }
   };
 }

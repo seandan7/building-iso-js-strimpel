@@ -40,10 +40,11 @@ server.route({
 var _default = {
   nunjucks: './dist',
   server: server,
-  document: function document(application, controller, request, body, callback) {
+  document: function document(application, controller, request, reply, body, callback) {
     _nunjucks["default"].render('./index.html', {
       body: body,
-      application: APP_FILE_PATH
+      application: APP_FILE_PATH,
+      state: controller.serialize()
     }, function (err, html) {
       if (err) {
         return callback(err, null);

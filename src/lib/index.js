@@ -30,7 +30,7 @@ export default class Application {
                     controller.index(this, request, h, function (err) {
                         if (err) reject(err);
                         controller.toString(function (err, html) {
-                            self.document(this, controller, request, html,
+                            self.document(this, controller, request, h.response, html,
                                 function (err, html) {
                                     if (err) reject(err);
                                     // TODO: Figure out why this I need to do this instead of just having nunjucks render as it should

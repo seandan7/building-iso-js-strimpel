@@ -13,6 +13,9 @@ export default class Controller {
         callback(null, 'success');
     }
 
+    serialize() {
+        return JSON.stringify(this.context.data || {});
+    }
     render(target, callback) {
         this.toString(function(err, body) {
             if (err) {

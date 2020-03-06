@@ -13,13 +13,14 @@ export default function( request, reply) {
             return request.state[name] && decodeURIComponent(request.state[name]) || undefined;
         },
         set(name, value, options = {}) {
-            reply.state(cleanName(name), cleanValue(value), {
-                // use hapi defaults if values are falsy
-                isSecure: options.secure || false,
-                path: options.path || null,
-                ttl: options.expires || null,
-                domain: options.domain || null
-              });
+            // TODO: FIX
+            // reply.state(cleanName(name), cleanValue(value), {
+            //     // use hapi defaults if values are falsy
+            //     isSecure: options.secure || false,
+            //     path: options.path || null,
+            //     ttl: options.expires || null,
+            //     domain: options.domain || null
+            //   });
         }
     }
 }
