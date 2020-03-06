@@ -23,9 +23,10 @@ export default class Controller {
 
     attach(el) {
         console.log(this.context.data)
+        this.clickHandler = el.addEventListener('click',onClick, false);
     }
     detatch(el) {
-        // to be implemented
+        el.removeEventListener('click',onClick, false);
     }
     render(target, callback) {
         this.toString(function(err, body) {

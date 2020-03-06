@@ -31,6 +31,10 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 _nunjucks["default"].configure('./dist');
 
+function onClick(e) {
+  console.log(e.currentTarget);
+}
+
 function getName(request) {
   // set defaults
   var name = {

@@ -2,7 +2,9 @@ import Controller from './lib/controller';
 import nunjucks from 'nunjucks';
 
 nunjucks.configure('./dist');
-
+function onClick(e) {
+    console.log(e.currentTarget);
+}
 function getName(request) {
     // set defaults
     let name = {
