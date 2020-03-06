@@ -1,4 +1,6 @@
 import Controller from "./controller";
+import cookieFactory from './cookie';
+
 
 export default class Application {
     constructor(routes, options) {
@@ -21,7 +23,8 @@ export default class Application {
             handler: function (request, h) {
                 const controller = new Controller({
                     query: request.query,
-                    params: request.params
+                    params: request.params,
+                    cookie: cookieFactory(request, h.response)
                 });
                 return new Promise(function (resolve, reject) {
                     controller.index(this, request, h, function (err) {

@@ -9,6 +9,8 @@ var _call = _interopRequireDefault(require("call"));
 
 var _queryString = _interopRequireDefault(require("query-string"));
 
+var _cookie = _interopRequireDefault(require("./cookie.client"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -76,7 +78,8 @@ var Application = /*#__PURE__*/function () {
       if (route && Controller) {
         var controller = new Controller({
           query: _queryString["default"].parse(search),
-          params: params
+          params: params,
+          cookie: _cookie["default"]
         }); // request and reply stubs -- facadesnext chapter
 
         var request = function request() {};
@@ -84,9 +87,9 @@ var Application = /*#__PURE__*/function () {
         var reply = function reply() {}; // execute controller action
 
 
-        controller.index(this, request, reply, function (err) {
+        controller.index(this, request, h, function (err) {
           if (err) {
-            return reply(err);
+            return h.response;
           }
         });
       }

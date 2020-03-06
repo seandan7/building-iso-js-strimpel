@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _controller = _interopRequireDefault(require("./controller"));
 
+var _cookie = _interopRequireDefault(require("./cookie"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,7 +43,8 @@ var Application = /*#__PURE__*/function () {
         handler: function handler(request, h) {
           var controller = new Controller({
             query: request.query,
-            params: request.params
+            params: request.params,
+            cookie: (0, _cookie["default"])(request, h.response)
           });
           return new Promise(function (resolve, reject) {
             controller.index(this, request, h, function (err) {

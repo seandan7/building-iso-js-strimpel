@@ -54,6 +54,17 @@ var HelloController = /*#__PURE__*/function (_Controller) {
   }
 
   _createClass(HelloController, [{
+    key: "index",
+    value: function index(application, request, reply, callback) {
+      this.context.cookie.set('random', '_' + (Math.floor(Math.random() * 1000) + 1), {
+        path: '/'
+      });
+      this.context.data = {
+        random: Math.floor(Math.random() * 1000) + 1
+      };
+      callback(null);
+    }
+  }, {
     key: "toString",
     value: function toString(callback) {
       _nunjucks["default"].render('hello.html', getName(this.context), function (err, res) {

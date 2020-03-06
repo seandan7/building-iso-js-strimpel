@@ -1,5 +1,8 @@
 import Call from 'call';
 import query from 'query-string';
+import cookie from './cookie.client';
+
+
 export default class Application {
 
     constructor(routes, options) {
@@ -43,16 +46,17 @@ export default class Application {
         if (route && Controller) {
             const controller = new Controller({
                 query: query.parse(search),
-                params: params
+                params: params,
+                cookie: cookie
             });
             // request and reply stubs -- facadesnext chapter
             const request = ()=> {};
             const reply = ()=> {};
 
             // execute controller action
-            controller.index(this, request, reply, (err) => {
+            controller.index(this, request, h, (err) => {
                 if (err) {
-                    return reply(err);
+                    return h.response;
                 }
             })
                
